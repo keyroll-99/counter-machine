@@ -30,7 +30,9 @@ const assignValue = (n, m) => {
 };
 
 const move = (n, m, q) => {
-    if (buttons[m].innerHTML === buttons[n].innerHTML) {
+    console.log(buttons[m].innerHTML == buttons[n].innerHTML);
+    console.log(q);
+    if (buttons[m].innerHTML == buttons[n].innerHTML) {
         current_step = q;
     } else {
         current_step++;
@@ -59,6 +61,10 @@ compileButton.addEventListener("click", () => {
 resetButton.addEventListener("click", reset);
 
 nextButton.addEventListener("click", () => {
+    if (current_step >= steps.length) {
+        alert("end");
+        return;
+    }
     moveText.innerHTML = ++current_move;
 
     const step = steps[current_step];
