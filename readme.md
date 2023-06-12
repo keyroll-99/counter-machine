@@ -13,12 +13,12 @@ To test the program, you must first click `compile` and then you can go through 
 example of code
 
 ```
-S(1);
-Z(2);
-T(1,2);
-S(0);
-S(0);
-T(0, 3);
-z(1);
+1.S(1);
+2.S(1);
+3.S(1);
+4.I(1,2,6);
+5.S(2);
+6.I(1,1,3);
+7.T(2,0);
 
 ```

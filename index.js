@@ -9,11 +9,23 @@ const textArea = document.querySelector("#input");
 const buttons = document.querySelectorAll(".element");
 const moveText = document.querySelector("#move");
 const actionNo = document.querySelector("#action-no");
+const setArgsButton = document.querySelector("#set-args");
+const x = document.querySelector("#x");
+const y = document.querySelector("#y");
+
+const setArgs = () => {
+    const xValue = x.value;
+    const yValue = y.value;
+
+    buttons[1].innerHTML = xValue;
+    buttons[2].innerHTML = yValue;
+};
 
 const reset = () => {
     buttons.forEach((x) => (x.innerHTML = 0));
     current_move = 0;
     current_step = 0;
+    setArgs();
 };
 
 const resetValue = (n) => {
@@ -68,15 +80,24 @@ nextButton.addEventListener("click", () => {
     moveText.innerHTML = ++current_move;
 
     const step = steps[current_step];
-    const action = step.trim().charAt(0).toUpperCase();
+    let action = step.trim();
+    if (action.includes(".")) {
+        action = action.split(".")[1].charAt(0).toUpperCase();
+    } else {
+        action = action.charAt(0).toUpperCase();
+    }
+    console.log(step);
+    console.log(action);
     if (action == "Z" || action == "S") {
-        arg = step.split("(")[1].charAt(0);
+        arg = step.split("(")[1].trim();
+        arg = arg.replace(")", "");
         actions[action](arg);
     }
 
     if (action == "T") {
-        const arg1 = step.split("(")[1].split(",")[0].trim().charAt(0);
-        const arg2 = step.split("(")[1].split(",")[1].trim().charAt(0);
+        const arg1 = step.split("(")[1].split(",")[0].trim();
+        let arg2 = step.split("(")[1].split(",")[1].trim();
+        arg2 = arg2.replace(")", "");
 
         actions[action](arg1, arg2);
     }
@@ -84,9 +105,10 @@ nextButton.addEventListener("click", () => {
     if (action == "I") {
         console.log(step.split("(")[1].split(","));
 
-        const arg1 = step.split("(")[1].split(",")[0].trim().charAt(0);
-        const arg2 = step.split("(")[1].split(",")[1].trim().charAt(0);
-        const arg3 = step.split("(")[1].split(",")[2].trim().charAt(0);
+        const arg1 = step.split("(")[1].split(",")[0].trim();
+        const arg2 = step.split("(")[1].split(",")[1].trim();
+        let arg3 = step.split("(")[1].split(",")[2].trim();
+        arg3 = arg3.replace(")", "");
         actions[action](arg1, arg2, arg3);
     } else {
         current_step++;
@@ -94,5 +116,7 @@ nextButton.addEventListener("click", () => {
 
     actionNo.innerHTML = current_step;
 });
+
+setArgsButton.addEventListener("click", setArgs);
 
 reset();
